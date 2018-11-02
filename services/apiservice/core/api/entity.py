@@ -15,7 +15,7 @@ def ping():
 def add_entity(resp):
     post_data = request.get_json()
     response_object = {
-        status: 'fail',
+        'status': 'fail',
         'message': 'Invalid payload.'
     }
     try:
@@ -24,5 +24,5 @@ def add_entity(resp):
         response_object['status'] = 'success'
         response_object['message'] = 'entity created!'
         return jsonify(response_object), 201
-    except e:
+    except Exception:
         return jsonify(response_object), 400
