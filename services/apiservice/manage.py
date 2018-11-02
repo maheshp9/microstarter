@@ -1,3 +1,4 @@
+import coverage
 import unittest
 
 from flask.cli import FlaskGroup

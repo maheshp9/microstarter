@@ -6,6 +6,8 @@ RUN apt-get update && \
     apt-get -y install netcat && \
     apt-get clean
 
+RUN pip install --upgrade pip
+
 # set working directory
 WORKDIR /usr/src/app
 
@@ -21,4 +23,5 @@ RUN chmod +x /usr/src/app/entrypoint.sh
 COPY . /usr/src/app
 
 # run server
-CMD ["/usr/src/app/entrypoint.sh"]
+CMD ["sh","-c","chmod 777 /usr/src/app/entrypoint.sh && /usr/src/app/entrypoint.sh"]
+
