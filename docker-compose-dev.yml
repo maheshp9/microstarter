@@ -1,0 +1,41 @@
+version: '3.6'
+
+services:
+
+  apiservice:
+    build:
+      context: ./services/apiservice
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/apiservice:/usr/src/app'
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=core.config.DevelopmentConfig
+
+  webclient:
+    build:
+      context: ./services/webclient
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/webclient:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 3007:3000
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_SERVICE_URL=${REACT_APP_API_SERVICE_URL}
+    depends_on:
+      - apiservice
+
+  nginx:
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile-dev
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - apiservice
+      - webclient
